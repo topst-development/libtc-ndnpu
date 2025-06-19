@@ -1,0 +1,60 @@
+# General
+.DS_Store
+Thumbs.db
+
+# CMake files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+install_manifest.txt
+
+# Ninja build system files
+build.ninja
+rules.ninja
+
+# Visual Studio Code CMake Tools
+CMakeTools/
+CMakePresets.json
+CMakeUserPresets.json
+
+# Generated build directories
+build/
+out/
+Debug/
+Release/
+x64/
+x86/
+dist/
+
+# Object files and libraries
+*.o
+*.obj
+*.so
+*.a
+*.lib
+*.dll
+*.dylib
+*.exe
+*.app
+
+# Test output
+Testing/
+CTestTestfile.cmake
+*.log
+
+# Generated configuration files
+*.cmake
+*.pc
+
+# Editor and IDE-specific files
+*.swp
+*~
+.vscode/
+.idea/
+.vs/
+*.user
+*.workspace
+*.sln
+*.vcxproj*
+
