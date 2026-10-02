@@ -78,6 +78,9 @@ npu_net_t *network_load_from_file(
 
     if ((!c_size) || (!p_size))
     {
+        fprintf(stderr,
+                "network_load_from_file: invalid network file size: cmd=%s(%u), param=%s(%u)\n",
+                cmdfile, c_size, paramfile, p_size);
         err = -1;
     }
     else
@@ -92,6 +95,10 @@ npu_net_t *network_load_from_file(
         param_fp = fopen(paramfile, "rb");
         if ((!cmd_fp) || (!param_fp))
         {
+            fprintf(stderr,
+                    "network_load_from_file: fopen failed: cmd=%s(%s), param=%s(%s)\n",
+                    cmdfile, cmd_fp ? "ok" : strerror(errno),
+                    paramfile, param_fp ? "ok" : strerror(errno));
             err = -1;
         }
     }
@@ -102,6 +109,8 @@ npu_net_t *network_load_from_file(
         param_buf = npu_api_malloc(sizeof(char) * p_size);
         if ((!cmd_buf) || (!param_buf))
         {
+            fprintf(stderr, "network_load_from_file: malloc failed: cmd_size=%u, param_size=%u\n",
+                    c_size, p_size);
             err = -1;
         }
     }
@@ -110,10 +119,12 @@ npu_net_t *network_load_from_file(
     {
         if (fread(cmd_buf, sizeof(char), c_size, cmd_fp) < c_size)
         {
+            fprintf(stderr, "network_load_from_file: fread failed: %s\n", cmdfile);
             err = -1;
         }
         if (fread(param_buf, sizeof(char), p_size, param_fp) < p_size)
         {
+            fprintf(stderr, "network_load_from_file: fread failed: %s\n", paramfile);
             err = -1;
         }
     }
@@ -133,6 +144,9 @@ npu_net_t *network_load_from_file(
         net = network_load(npu, cmd_buf, c_size, param_buf, p_size);
         if (!net)
         {
+            fprintf(stderr,
+                    "network_load_from_file: network_load ioctl failed: cmd=%s, param=%s\n",
+                    cmdfile, paramfile);
             err = -1;
         }
     }
@@ -152,11 +166,14 @@ npu_net_t *network_load_from_file(
         dl = dlopen(sofile, RTLD_NOW);
         if (!dl)
         {
+            fprintf(stderr, "network_load_from_file: dlopen failed: %s: %s\n",
+                    sofile, dlerror());
             err = -1;
         }
         methods = enlight_net_malloc();
         if (!methods)
         {
+            fprintf(stderr, "network_load_from_file: enlight_net_malloc failed\n");
             err = -1;
         }
     }
@@ -164,6 +181,16 @@ npu_net_t *network_load_from_file(
     if (!err)
     {
         init_net = dlsym(dl, "init_network");
+        if (!init_net)
+        {
+            fprintf(stderr, "network_load_from_file: dlsym(init_network) failed: %s\n",
+                    dlerror());
+            err = -1;
+        }
+    }
+
+    if (!err)
+    {
         init_net(methods);
 
         net->methods = methods;

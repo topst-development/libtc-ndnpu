@@ -60,10 +60,6 @@ npu_t* npu_open(int minor)
         npu = NULL;
     }
 
-    // if (npu != NULL) {
-    //     npu_api_print_err("failed: %d\n", minor);
-    // }
-
     return npu;
 }
 
@@ -101,10 +97,6 @@ int npu_reset(
         }
     }
 
-    // if (ret < 0) {
-    //     npu_api_print_err("failed\n");
-    // }
-
     return ret;
 }
 
@@ -123,10 +115,6 @@ int npu_close(npu_t* npu)
             ret = -1;
         }
     }
-
-    // if (ret < 0) {
-    //     npu_api_print_err("failed\n");
-    // }
 
     return ret;
 }
@@ -155,10 +143,6 @@ int npu_write_reg(
         }
     }
 
-    // if (ret < 0) {
-    //     npu_api_print_err("failed\n");
-    // }
-
     return ret;
 }
 
@@ -185,10 +169,6 @@ int npu_read_reg(
             ret = -1;
         }
     }
-
-    // if (ret < 0) {
-    //     npu_api_print_err("failed\n");
-    // }
 
     return ret;
 }
@@ -230,10 +210,6 @@ int npu_write_test_cfg (
         }
     }
 
-    // if (ret < 0) {
-    //     npu_api_print_err("failed\n");
-    // }
-
     return ret;
 }
 
@@ -250,10 +226,6 @@ int npu_read_err_status(
     else {
         ret = ioctl(npu->fd, NPU_IOCTL_READ_NPU_ERR, err_status);
     }
-
-    // if (ret != 0) {
-    //     npu_api_print_err("failed\n");
-    // }
 
     return ret;
 }
@@ -301,10 +273,6 @@ npu_net_t* network_load(
         }
     }
 
-    // if (net == NULL) {
-    //     npu_api_print_err("failed\n");
-    // }
-
     return net;
 }
 
@@ -327,10 +295,6 @@ int network_set_color_format(
             ret = -1;
         }
     }
-
-    // if (ret < 0) {
-    //     npu_api_print_err("failed\n");
-    // }
 
     return ret;
 }
@@ -369,7 +333,6 @@ int network_run_async(
 {
     int ret;
 
-    //TODO: remove a spend time calculate in application level.
     struct timespec start, end;
     long long time_start, time_end, time_diff;
 
@@ -389,10 +352,6 @@ int network_run_async(
     perf->elapsed_in_us = (time_diff / 1000L);
     perf->dma = 0u;
     perf->comp = 0u;
-
-    // if (ret < 0) {
-    //     npu_api_print_err("failed\n");
-    // }
 
     return ret;
 }
@@ -425,10 +384,6 @@ int network_issue_run(
         }
     }
 
-    // if (ret < 0) {
-    //     npu_api_print_err("failed\n");
-    // }
-
     return ret;
 }
 
@@ -454,34 +409,15 @@ int network_wait_done(
 
         do {
             poll_ret = poll(&fd, 1, timeout_in_ms);
-        // cppcheck-suppress misra-c2012-22.10; poll is errno setting func
         } while ((poll_ret < 0));
 
         if ((fd.revents & POLLIN) == 0) {
             ret = -1;
         }
         else {
-            //TODO: for official release
-            // net_current_state_req_t req;
-            // if (ioctl(net->fd, NPU_NET_GET_LASTEST_STATUS, &req) == 0) {
-            //     perf->elapsed_in_us = req.elapsed_in_us;
-            //     // perf->dma = req.dma;
-            //     // perf->comp = req.comp;
-            //     // perf->all = 0u;
-            //     ret = 0;
-            // }
-            // else {
-            //     ret = -1;
-            // }
             ret = 0;
         }
     }
-
-    // if (ret < 0) {
-    //     npu_api_print_err("failed\n");
-    // }
-
-    // npu_api_fout();
 
     return ret;
 }
@@ -521,12 +457,6 @@ int network_run_sync(
         }
     }
 
-    // if (ret < 0) {
-    //     npu_api_print_err("failed\n");
-    // }
-
-    // npu_api_fout();
-
     return ret;
 }
 
@@ -540,10 +470,6 @@ int network_get_input_size(npu_net_t* net)
     else {
         ret = net->methods->input_size;
     }
-
-    // if (ret < 0) {
-    //     npu_api_print_err("failed\n");
-    // }
 
     return ret;
 }
@@ -559,10 +485,6 @@ int network_get_output_size(npu_net_t* net)
         ret = net->methods->output_size;
     }
 
-    // if (ret < 0) {
-    //     npu_api_print_err("failed/n");
-    // }
-
     return ret;
 }
 
@@ -576,10 +498,6 @@ int network_get_input_width(npu_net_t* net)
     else {
         ret = net->methods->img_size[2];
     }
-
-    // if (ret < 0) {
-    //     npu_api_print_err("failed/n");
-    // }
 
     return ret;
 }
@@ -595,10 +513,6 @@ int network_get_input_height(npu_net_t* net)
         ret = net->methods->img_size[1];
     }
 
-    // if (ret < 0) {
-    //     npu_api_print_err("failed\n");
-    // }
-
     return ret;
 }
 
@@ -612,10 +526,6 @@ int network_get_type(npu_net_t* net)
     else {
         ret = net->methods->post_type;
     }
-
-    // if (ret < 0) {
-    //     npu_api_print_err("failed\n");
-    // }
 
     return ret;
 }
@@ -641,10 +551,6 @@ int network_run_postprocess(
 
         ret = 0;
     }
-
-    // if (ret < 0) {
-    //     npu_api_print_err("failed\n");
-    // }
 
     return ret;
 }
@@ -673,10 +579,6 @@ int network_close(npu_net_t* net)
         enlight_net_free(net->methods);
         npu_net_free(net);
     }
-
-    // if (ret < 0) {
-    //     npu_api_print_err("failed\n");
-    // }
 
     return ret;
 }
@@ -719,14 +621,7 @@ npu_buf_t* buffer_alloc(npu_t* npu, int size)
                 buf = NULL;
             }
         }
-        // else {
-        //     npu_api_print_err("npu_buf_malloc failed(%d)\n", size);
-        // }
     }
-
-    // if (buf == NULL) {
-    //     npu_api_print_err("failed\n");
-    // }
 
     return buf;
 }
@@ -743,20 +638,14 @@ int buffer_close(npu_buf_t* buf)
         int ret_val = 0;
         
         if(munmap(buf->caddr, buf_size) != 0) {
-            // npu_api_print_err("fail to munmap addr=%d, size=%ld\n", buf->fd, buf_size);
             ret_val = -1;
         }
         if(close(buf->fd) != 0) {
-            // npu_api_print_err("fail to close fd=%d\n", buf->fd);
             ret_val = -1;
         }
         npu_buf_free(buf);
         ret = ret_val;
     }
-
-    // if (ret < 0) {
-    //     npu_api_print_err("failed\n");
-    // }
 
     return ret;
 }
@@ -771,10 +660,6 @@ char* buffer_get_addr(npu_buf_t* buf)
     else {
         addr = buf->caddr;
     }
-
-    // if (addr == NULL) {
-    //     npu_api_print_err("failed\n");
-    // }
 
     return addr;
 }
