@@ -47,7 +47,7 @@
 #define MAX_NETWORK_PATH_SIZE 1
 #define MAX_NPU_COUNT 2
 #define DEFAULT_TEST_COUNT 1
-#define DEFAULT_NETWORK_PATH "/usr/share/yolov5s_quantized"
+#define DEFAULT_NETWORK_PATH "/usr/share/yolov8s_quantized"
 
 #ifdef TELECHIPS_DEBUG
     #define app_debug_printf(...) printf(__VA_ARGS__)

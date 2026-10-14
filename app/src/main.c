@@ -60,7 +60,7 @@ static void AppPrintUsage(void)
            "    0 for /dev/npu0\n"
            "    1 for /dev/npu1\n"
            "\n"
-           " -n : npu network Path:         default: /usr/share/yolov5s_quantized\n"
+           " -n : npu network Path:         default: " DEFAULT_NETWORK_PATH "\n"
            "\n"
            " -t : test count:              default: 1\n"
            "\n"
